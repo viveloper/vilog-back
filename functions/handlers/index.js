@@ -36,23 +36,22 @@ exports.getPosts = (req, res) => {
   }).catch(err => console.error(err));
 }
 
-exports.postOneScream = (req, res) => {
-  if (req.body.body.trim() === '') {
-    return res.status(400).json({ body: 'Body must not be empty' })
-  }
-
-  const newScream = {
-    userHandle: req.user.handle,
-    body: req.body.body,
+exports.addPost = (req, res) => {
+  const newPost = {
+    title: req.body.title,
+    content : req.body.content,
+    image: 'https://source.unsplash.com/random',
+    author: req.user.nickname,
+    section: req.params.section,
     createdAt: new Date().toISOString()
   };
 
-  db.collection('screams').add(newScream).then(doc => {
-    res.json({ message: `document ${doc.id} created successfully` });
+  db.collection('posts').add(newPost).then(doc => {
+    res.status(201).json({message: `document ${doc.id} created successfully`});
   }).catch(err => {
-    res.status(500).json({ error: 'something went wrong' });
     console.error(err);
-  })
+    res.status(500).json({ error: err.message });
+  });
 }
 
 exports.signup = (req, res) => {
@@ -138,7 +137,7 @@ exports.login = (req, res) => {
   })
 }
 
-exports.uploadImage = (req, res) => {
+exports.uploadUserImage = (req, res) => {
   const Busboy = require('busboy');
   const path = require('path');
   const os = require('os');
