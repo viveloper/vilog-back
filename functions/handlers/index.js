@@ -39,19 +39,28 @@ exports.getPosts = (req, res) => {
 exports.addPost = (req, res) => {
   const newPost = {
     title: req.body.title,
-    content : req.body.content,
-    image: 'https://source.unsplash.com/random',
+    content: req.body.content,
+    image: req.body.image ? req.body.image : 'https://source.unsplash.com/random',
     author: req.user.nickname,
     section: req.params.section,
     createdAt: new Date().toISOString()
   };
 
   db.collection('posts').add(newPost).then(doc => {
-    res.status(201).json({message: `document ${doc.id} created successfully`});
+    res.status(201).json({ 
+      postId: doc.id,
+      message: `document ${doc.id} created successfully` 
+    });
   }).catch(err => {
     console.error(err);
     res.status(500).json({ error: err.message });
   });
+}
+
+exports.getPost = (req, res) => {
+  db.collection('posts').doc(req.params.id).get().then(doc => {
+    return res.json({ post: doc.data() })
+  }).catch(err => console.error(err));
 }
 
 exports.signup = (req, res) => {

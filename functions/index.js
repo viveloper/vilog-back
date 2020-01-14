@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const authMiddleware = require('./util/authMiddleware');
-const {signup, login, getAllSections, getPosts, addPost, uploadUserImage} = require('./handlers');
+const {signup, login, getAllSections, getPosts, getPost, addPost, uploadUserImage} = require('./handlers');
 
 // cors
 app.use(cors());
@@ -13,7 +13,8 @@ app.post('/signup', signup);
 app.post('/login', login);
 app.get('/sections', authMiddleware, getAllSections);
 app.get('/:section/posts', authMiddleware, getPosts);
-app.post('/:section/post', authMiddleware, addPost)
+app.get('/posts/:id', authMiddleware, getPost)
+app.post('/:section/posts', authMiddleware, addPost)
 app.post('/user/image', authMiddleware, uploadUserImage);
 
 // ============================================================
