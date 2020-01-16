@@ -3,12 +3,17 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const authMiddleware = require('./util/authMiddleware');
-const {signup, login, getAllSections, getPosts, getPost, addPost, uploadUserImage} = require('./handlers');
+const {docs, signup, login, getAllSections, getPosts, getPost, addPost, uploadUserImage} = require('./handlers');
 
 // cors
 app.use(cors());
 
+// template engine
+app.set('views', './views');
+app.set('view engine', 'ejs');
+
 // routes
+app.get('/', docs);
 app.post('/signup', signup);
 app.post('/login', login);
 app.get('/sections', authMiddleware, getAllSections);

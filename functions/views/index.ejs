@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+    }
+    div {
+      margin: 1em 0;
+    }
+    h1 {
+      margin: 1em 0;
+    }
+  </style>
+  <title><%= title %></title>
+</head>
+<body>
+  <div class="container">
+    <h1><%= title %></h1>
+    <div>
+      <h3>Base URL</h3>
+      <p><%= baseUrl %></p>
+    </div>    
+    <hr>
+    <div>
+      <h3>Login</h3>
+      <p>POST <%= baseUrl %>/login</p>
+    </div>        
+    <div>
+      <h3>Signin</h3>
+      <p>POST <%= baseUrl %>/signin</p>
+    </div>
+    <hr>
+    <div>
+      <h3>Get section list</h3>
+      <p>GET <%= baseUrl %>/sections</p>
+    </div>
+    <hr>
+    <div>
+      <h3>Get post list</h3>
+      <p>GET <%= baseUrl %>/{section}/posts</p>
+    </div>
+    <div>
+      <h3>Get post</h3>
+      <p>GET <%= baseUrl %>/posts/{id}</p>
+    </div>
+    <div>
+      <h3>Add post</h3>
+      <p>POST <%= baseUrl %>/{section}/posts</p>
+    </div>
+    <hr>
+    <div>
+      <h3>Upload user image</h3>
+      <p>POST <%= baseUrl %>/user/image</p>
+    </div>
+  </div>
+</body>
+</html>

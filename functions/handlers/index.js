@@ -3,6 +3,14 @@ const { admin, db } = require('../util/firebaseAdmin');
 const { validateSignupData, validateLoginData } = require('../util/validators');
 const { storageBucket } = require('../config/firebaseConfig')
 
+exports.docs = (req, res) => {
+  const data = {
+    title: 'Vilog Web API List',
+    baseUrl: 'http://localhost:5000/viveloper-blog/us-central1/api'
+  };
+  res.render('index', data);
+}
+
 exports.getAllSections = (req, res) => {
   db.collection('sections').orderBy('index', 'asc').get().then(data => {
     const sections = [];
