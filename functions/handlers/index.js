@@ -135,11 +135,23 @@ exports.login = (req, res) => {
   const validationResult = validateLoginData(user)
   if (!validationResult.valid) return res.status(400).json(validationResult.errors);
   // ==
-
+  let userId = null;
+  let token = null;
   firebase.auth().signInWithEmailAndPassword(user.email, user.password).then(data => {
+    userId = data.user.uid;    
     return data.user.getIdToken();
-  }).then(token => {
-    return res.json({ token });
+  }).then(idToken => {
+    token = idToken;
+    return db.collection('users').where('userId', '==', userId).get()    
+  }).then(data => {
+    const users = [];
+    data.forEach(doc=>{
+      users.push(doc);
+    });
+    res.json({
+      token,
+      user: users[0].data()
+    });
   }).catch(err => {
     console.error(err);
     if (err.code === 'auth/wrong-password') {
