@@ -116,6 +116,7 @@ exports.signup = (req, res) => {
       } else {
         let userId = null;
         let token = null;
+        let userCredentials = null;
         return firebase
           .auth()
           .createUserWithEmailAndPassword(newUser.email, newUser.password)
@@ -125,7 +126,7 @@ exports.signup = (req, res) => {
           })
           .then(idToken => {
             token = idToken;
-            const userCredentials = {
+            userCredentials = {
               nickname: newUser.nickname,
               email: newUser.email,
               createdAt: new Date().toISOString(),
@@ -139,7 +140,7 @@ exports.signup = (req, res) => {
               .set(userCredentials);
           })
           .then(() => {
-            return res.status(201).json({ token });
+            return res.status(201).json({ token, user: userCredentials });
           })
           .catch(err => {
             console.error(err);
